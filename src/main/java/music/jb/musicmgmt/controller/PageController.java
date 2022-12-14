@@ -11,7 +11,8 @@ public class PageController {
     private final Logger LOG = LoggerFactory.getLogger(PageController.class);
 
     @GetMapping("/index")
-    public void getHomePage() {
+    public String getHomePage() {
         LOG.info("controler called");
+        return "index";
     }
 }
