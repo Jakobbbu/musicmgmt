@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Page Title</title>
 </head>
 <body>
+<table>
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+    <thead>
+    <tr>
+        <th th:text="first"/>
+        <th th:text="last"/>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="artist: ${artists}">
+        <td th:text="${artist.name}"/>
+        <td th:text="${artist.description}"/>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html> 
