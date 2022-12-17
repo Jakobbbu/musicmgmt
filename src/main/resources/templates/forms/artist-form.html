@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+<head>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div class="container mr-3 ml-3">
+        <h2 th:if="${artistAction} == 'update-artist'" th:text="'Edit ' + ${artist.name}" ></h2>
+        <h2 th:if="${artistAction} == 'add-new-artist'">Add new artist</h2>
+        <form action="#" th:action="@{/artist/{action}(action = ${artistAction})}" th:object="${artist}" th:method="${formMethod}" class="form">
+            <div class="form-group">
+                <label for="fullName">Name</label>
+                <input th:if="${artist != null}" type="text" th:field="*{name}" id="fullName" th:placeholder="*{name}">
+                <input th:unless="${artist != null}" type="text" id="fullName">
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></p>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea th:if="${artist != null}" class="form-control" th:field="*{description}" id="description" rows="3" th:text="${artist.description}" ></textarea>
+                <textarea th:unless="${artist != null}" class="form-control" th:field="*{description}" id="description" rows="3"></textarea>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}"></p>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</section>
+</body>
+</html>

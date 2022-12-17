@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 <head>
-    <title>Page Title</title>
 </head>
 <body>
-<table>
 
-    <thead>
-    <tr>
-        <th th:text="first"/>
-        <th th:text="last"/>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="artist: ${artists}">
-        <td th:text="${artist.name}"/>
-        <td th:text="${artist.description}"/>
-    </tr>
-    </tbody>
-</table>
+<section layout:fragment="content">
+    <div class="row justify-content-md-center">
+        <h2>Welcome to music management page!</h2>
+    </div>
+    <div class="row justify-content-md-center mt-2 mb-2">
+        <form class="form-inline" action="#" th:action="@{/artist/search-for-artist}" method="get">
+            <div class="form-group">
+                <input type="text" id="key" name="key" placeholder="Search for artist..."><br>
+                <button type="submit" class="btn btn-primary btn-sm">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="row justify-content-md-center mt-2 mb-2">
+        <form action="#" th:action="@{/artist/all-artists}" method="get">
+            <button type="submit" class="btn btn-primary btn-sm">get all artists</button>
+        </form>
+    </div>
+</section>
 
 </body>
 </html> 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+<head>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="row justify-content-md-left">
+        <!--        <form action="#" th:action="@{/}" method="get">
+                    <button type="submit"  class="btn btn-primary btn-sm">Back</button>
+                </form>-->
+        <a th:href="@{/home}"><button class="btn btn-primary btn-sm">Back</button></a>
+        <input type="text" id="search-input" onkeyup="searchTable()" placeholder="Search results..." title="Type in an artist name">
+    </div>
+    <div class="row justify-content-md-center">
+        <table id="artist-table" class="table">
+            <thead>
+            <tr>
+                <th th:text="Name"/>
+                <th th:text="Description"/>
+                <th th:text="Members"/>
+                <th th:text="Releases"/>
+                <th text=""/>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="artist, iStat : ${artists}" th:id="'row' + ${iStat.index}" >
+                <td th:text="${artist.name}"/>
+                <td th:text="${artist.description}"/>
+                <td><a th:href="@{/artist/getmembers(id = ${artist.id})}">members</a></td>
+                <td><a th:href="@{/artist/getreleases(id = ${artist.id})}">releases</a></td>
+                <td><a th:href="@{/artist/get-edit-artist-form(id = ${artist.id})}"><Button class="btn btn-sm" style="width:100%">Edit</button></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

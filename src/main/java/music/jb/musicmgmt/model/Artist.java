@@ -4,14 +4,19 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
 @Entity
 public class Artist extends BaseModel {
 
+    @NotEmpty(message = "Artist's name cannot be empty.")
     private String name;
 
+    @NotEmpty(message = "Artist's description should be longer than 10 characters.")
+    @Size(min = 10, max = 200, message = "should be between 10 and 200 characters")
     private String description;
 
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
