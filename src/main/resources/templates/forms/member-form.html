@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
 
+<section layout:fragment="content">
+    <div class="container mr-3 ml-3">
+        <input action="action" onclick="window.history.back()" value="Back" type="button" class="btn btn-primary"/>
+        <h2 th:if="${memberAction} == 'update-member'" th:text="'Edit: ' + ${member.name}" ></h2>
+        <h2 th:if="${memberAction} == 'add-new-member'">Add new member</h2>
+        <form action="#" th:object="${member}" method="post" class="form">
+            <input th:if="${member.id != null}" type="hidden" th:field="*{id}" id="id" th:placeholder="*{id}">
+            <div class="form-group">
+                <label for="fullName">Name</label>
+                <input type="text" th:field="*{name}" id="fullName" th:placeholder="*{name}">
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></p>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" th:field="*{description}" id="description" rows="3" th:text="${member.description}" ></textarea>
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}"></p>
+            </div>
+            <div class="form-group">
+                <label for="true">Active</label>
+                <input type="radio" id="true" th:field="*{active}" th:name="active" value="true" checked="checked"><br>
+                <label for="false">Not active</label>
+                <input type="radio" id="false" th:field="*{active}" th:name="active" value="false">
+            </div>
+            <input th:if="${artistId == null}" type="submit" value="Submit" th:formaction="@{/member/{action}(action = ${memberAction})}"  class="btn btn-secondary">
+            <input th:unless="${artistId == null}" type="submit" value="Submit" th:formaction="@{/member/{action}(action = ${memberAction}, aid=${artistId})}"  class="btn btn-secondary">
+            <input th:if="${member.id != null}" type="submit" value="Delete" formaction="/member/delete-member"  class="btn btn-danger">
+        </form>
+    </div>
+</section>
 </body>
 </html>

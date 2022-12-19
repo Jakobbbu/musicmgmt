@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
 
+<section layout:fragment="content">
+    <div class="container mr-3 ml-3">
+        <input action="action" onclick="window.history.back()" value="Back" type="button" class="btn btn-primary"/>
+        <h2 th:if="${releaseAction} == 'update-release'" th:text="'Edit: ' + ${release.title}" ></h2>
+        <h2 th:if="${releaseAction} == 'add-new-release'">Add new release</h2>
+        <form action="#" th:object="${release}" method="post" class="form">
+            <input th:if="${release.id != null}" type="hidden" th:field="*{id}" id="id" th:placeholder="*{id}">
+            <div class="form-group">
+                <label for="title">Name</label>
+                <input type="text" th:field="*{title}" id="title" th:placeholder="*{title}">
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errorclass="error" th:errors="*{title}"></p>
+            </div>
+            <div class="form-group">
+                <label for="title">Year</label>
+                <input type="text" th:field="*{releaseYear}" id="title" th:placeholder="*{releaseYear}">
+                <p class="alert alert-danger" th:if="${#fields.hasErrors('releaseYear')}" th:errorclass="error" th:errors="*{releaseYear}"></p>
+            </div>
+            <input th:if="${artistId == null}" type="submit" value="Submit" th:formaction="@{/release/{action}(action = ${releaseAction})}"  class="btn btn-secondary">
+            <input th:unless="${artistId == null}" type="submit" value="Submit" th:formaction="@{/release/{action}(action = ${releaseAction}, aid=${artistId})}"  class="btn btn-secondary">
+            <input th:if="${release.id != null}" type="submit" value="Delete" formaction="/release/delete-release"  class="btn btn-danger">
+        </form>
+    </div>
+</section>
 </body>
 </html>

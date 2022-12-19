@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
-
+<section layout:fragment="content">
+    <div class="row justify-content-md-left">
+        <input action="action" onclick="window.history.back()" value="Back" type="button" class="btn btn-primary"/>
+    </div>
+    <div class="row justify-content-md-left">
+        <h3 th:text="${artistName} + ' releases'"></h3>
+    </div>
+    <div class="row justify-content-md-center">
+        <table id="release-table" class="table">
+            <thead>
+            <tr>
+                <th th:text="Title"/>
+                <th th:text="Tracks"/>
+                <th th:text="Year"/>
+                <th text=""/>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="release, iStat : ${releases}" th:id="'row' + ${iStat.index}">
+                <td th:text="${release.title}"/>
+                <td>
+                    <table>
+                        <tbody>
+                        <tr th:each="track : ${release.trackList}">
+                            <td th:text="${track.title}" />
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td th:text="${release.releaseYear}"/>
+                <td><a th:href="@{/release/get-edit-release-form(id = ${release.id})}">
+                    <Button class="btn btn-sm" style="width:100%">Edit</button></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row justify-content-md-left">
+        <a th:href="@{/release/get-add-release-form(aid = ${artistId})}">
+            <button class="btn btn-primary btn-sm">Add new</button>
+        </a>
+    </div>
+</section>
 </body>
 </html>

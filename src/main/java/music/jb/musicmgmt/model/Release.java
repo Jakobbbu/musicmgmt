@@ -1,14 +1,22 @@
 package music.jb.musicmgmt.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
 @Entity
 public class Release extends BaseModel{
 
+    @NotEmpty(message = "Release title cannot be empty")
     private String title;
 
+    @NotNull(message = "Release year cannot be empty")
+    @Min(value = 1800, message = "enter valid year > 1800")
+    @Max(value = 2022, message = "enter valid year < 2022")
     private String releaseYear;
 
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

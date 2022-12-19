@@ -6,22 +6,23 @@
 
 <section layout:fragment="content">
     <div class="container mr-3 ml-3">
-        <h2 th:if="${artistAction} == 'update-artist'" th:text="'Edit ' + ${artist.name}" ></h2>
+        <input action="action" onclick="window.history.back()" value="Back" type="button" class="btn btn-primary"/>
+        <h2 th:if="${artistAction} == 'update-artist'" th:text="'Edit: ' + ${artist.name}" ></h2>
         <h2 th:if="${artistAction} == 'add-new-artist'">Add new artist</h2>
-        <form action="#" th:action="@{/artist/{action}(action = ${artistAction})}" th:object="${artist}" th:method="${formMethod}" class="form">
+        <form action="#" th:object="${artist}" method="post" class="form">
+            <input th:if="${artist.id != null}" type="hidden" th:field="*{id}" id="id" th:placeholder="*{id}">
             <div class="form-group">
                 <label for="fullName">Name</label>
-                <input th:if="${artist != null}" type="text" th:field="*{name}" id="fullName" th:placeholder="*{name}">
-                <input th:unless="${artist != null}" type="text" id="fullName">
+                <input type="text" th:field="*{name}" id="fullName" th:placeholder="*{name}">
                 <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></p>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea th:if="${artist != null}" class="form-control" th:field="*{description}" id="description" rows="3" th:text="${artist.description}" ></textarea>
-                <textarea th:unless="${artist != null}" class="form-control" th:field="*{description}" id="description" rows="3"></textarea>
+                <textarea class="form-control" th:field="*{description}" id="description" rows="3" th:text="${artist.description}" ></textarea>
                 <p class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}"></p>
             </div>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" th:formaction="@{/artist/{action}(action = ${artistAction})}"  class="btn btn-secondary">
+            <input th:if="${artist.id != null}" type="submit" value="Delete" formaction="/artist/delete-artist"  class="btn btn-danger">
         </form>
     </div>
 </section>

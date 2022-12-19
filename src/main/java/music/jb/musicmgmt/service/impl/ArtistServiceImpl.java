@@ -1,6 +1,6 @@
 package music.jb.musicmgmt.service.impl;
 
-import music.jb.musicmgmt.controller.WebController;
+import jakarta.transaction.Transactional;
 import music.jb.musicmgmt.model.Artist;
 import music.jb.musicmgmt.repository.ArtistRepository;
 import music.jb.musicmgmt.service.ArtistService;
@@ -9,11 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArtistServiceImpl implements ArtistService {
 
-    private final Logger LOG = LoggerFactory.getLogger(WebController.class);
+    private final Logger LOG = LoggerFactory.getLogger(ArtistService.class);
 
     private final ArtistRepository artistRepository;
 
@@ -28,15 +29,21 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public void saveArtist(Artist artist) {
-        LOG.info("Saving artist with name" + artist.getName());
-        artistRepository.save(artist);
+        Optional<Long> optionalId = Optional.ofNullable(artist.getId());
+        if(optionalId.isPresent()) {
+            Artist og = artistRepository.getReferenceById(optionalId.get());
+            og.setName(artist.getName());
+            og.setDescription(artist.getDescription());
+            artistRepository.save(og);
+        } else {
+            artistRepository.save(artist);
+        }
     }
 
     @Override
-    public Artist getArtistById(String id) {
+    public Artist getArtistById(Long id) {
         try{
-            Long longId = Long.parseLong(id);
-            return artistRepository.getReferenceById(longId);
+            return artistRepository.getReferenceById(id);
         } catch (Exception e) {
             LOG.error(e.getMessage());
         }
@@ -46,5 +53,11 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public List<Artist> searchForArtist(String key) {
         return artistRepository.findArtistByNameContainsIgnoreCase(key);
+    }
+
+    @Override
+    @Transactional
+    public void removeArtist(Artist artist) {
+        artistRepository.deleteArtistById(artist.getId());
     }
 }

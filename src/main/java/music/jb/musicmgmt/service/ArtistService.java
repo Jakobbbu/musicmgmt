@@ -10,8 +10,9 @@ public interface ArtistService {
 
     List<Artist> searchForArtist(String key);
 
-    Artist getArtistById(String id);
+    Artist getArtistById(Long id);
 
     void saveArtist(Artist artist);
 
+    void removeArtist(Artist artist);
 }

@@ -5,33 +5,37 @@
 <body>
 <section layout:fragment="content">
     <div class="row justify-content-md-left">
+        <h3 th:text="${artistName}"></h3>
+    </div>
+    <div class="row justify-content-md-left">
         <!--        <form action="#" th:action="@{/}" method="get">
                     <button type="submit"  class="btn btn-primary btn-sm">Back</button>
                 </form>-->
-        <a th:href="@{/home}"><button class="btn btn-primary btn-sm">Back</button></a>
-        <input type="text" id="search-input" onkeyup="searchTable()" placeholder="Search results..." title="Type in an artist name">
+        <input action="action" onclick="window.history.back()" value="Back" type="button" class="btn btn-primary"/>
+        <input type="text" id="search-input" onkeyup="searchTable('member-table')" placeholder="Search results..." title="Type in an member name">
     </div>
     <div class="row justify-content-md-center">
-        <table id="artist-table" class="table">
+        <table id="member-table" class="table">
             <thead>
             <tr>
                 <th th:text="Name"/>
                 <th th:text="Description"/>
-                <th th:text="Members"/>
-                <th th:text="Releases"/>
+                <th th:text="Active"/>
                 <th text=""/>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="artist, iStat : ${artists}" th:id="'row' + ${iStat.index}" >
-                <td th:text="${artist.name}"/>
-                <td th:text="${artist.description}"/>
-                <td><a th:href="@{/artist/getmembers(id = ${artist.id})}">members</a></td>
-                <td><a th:href="@{/artist/getreleases(id = ${artist.id})}">releases</a></td>
-                <td><a th:href="@{/artist/get-edit-artist-form(id = ${artist.id})}"><Button class="btn btn-sm" style="width:100%">Edit</button></a></td>
+            <tr th:each="member, iStat : ${members}" th:id="'row' + ${iStat.index}" >
+                <td th:text="${member.name}"/>
+                <td th:text="${member.description}"/>
+                <td th:text="${member.active}"/>
+                <td><a th:href="@{/member/get-edit-member-form(id = ${member.id})}"><Button class="btn btn-sm" style="width:100%">Edit</button></a></td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div class="row justify-content-md-left">
+        <a th:href="@{/member/get-add-member-form(aid = ${artistId})}"><button class="btn btn-primary btn-sm">Add new</button></a>
     </div>
 </section>
 </body>

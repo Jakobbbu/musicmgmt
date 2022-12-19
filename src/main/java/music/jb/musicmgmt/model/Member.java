@@ -1,6 +1,8 @@
 package music.jb.musicmgmt.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Member extends BaseModel{
@@ -9,10 +11,13 @@ public class Member extends BaseModel{
     @JoinColumn(name = "artist_id", nullable = false)
     private Artist artist;
 
+    @NotEmpty(message = "Member's name cannot be empty.")
     private String name;
 
+    @NotEmpty(message = "Member's description cannot be empty.")
     private String description;
 
+    @NotNull(message ="cannot be null")
     private boolean active;
 
     public Artist getArtist() {
